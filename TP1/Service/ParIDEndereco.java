@@ -9,7 +9,7 @@ import java.io.IOException;
 import TP1.Interfaces.RegistroHashExtensivel;
 
 /**
- *  ParIDEndereco: Classe que representa um par de ID e Endereco.
+ *  ParIDEndereco: Classe que representa um par de ID e Endereco. nao ta
  *  Implementa a interface RegistroHashExtensivel.
  */
 public class ParIDEndereco implements RegistroHashExtensivel<ParIDEndereco> {
