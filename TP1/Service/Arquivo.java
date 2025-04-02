@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 import TP1.Interfaces.*;
 
 /**
- *  Arquivo: Classe generica que representa um arquivo de registros.
+ *  Arquivo: Classe generica que representa um arquivo de registros. nao ta pegnado
  */
 public class Arquivo<T extends Registro> 
 {
