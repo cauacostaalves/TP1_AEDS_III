@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 import TP1.Interfaces.*;
 
 /**
- *  Arquivo: Classe generica que representa um arquivo de registros. nao ta pegnado
+ *  Arquivo: Classe generica que representa um arquivo de registros.
  */
 public class Arquivo<T extends Registro> 
 {
@@ -22,12 +22,12 @@ public class Arquivo<T extends Registro>
 
     public Arquivo ( String na, Constructor<T> c ) throws Exception 
     {
-        File d = new File(".\\TP1");
+        File d = new File(".\\TP1\\Data");
         if ( !d.exists( ) ) {
             d.mkdir();
         } // end if
 
-        this.nomeArquivo = ".\\TP1" + na;
+        this.nomeArquivo = ".\\TP1\\Data\\" + na;
         this.construtor = c;
         arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
         if (arquivo.length() < TAM_CABECALHO) {
