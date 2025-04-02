@@ -1,32 +1,51 @@
 package TP1.Service;
 
-import java.io.*;
-import TP1.Interfaces.Registro;
-import TP1.Service.ParIDEndereco;
-import TP1.Service.HashExtensivel;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.lang.reflect.Constructor;
 
-public class Arquivo {
+import TP1.Interfaces.*;
 
-    public String nomeEntidade;
+/**
+ *  Arquivo: Classe generica que representa um arquivo de registros.
+ */
+public class Arquivo<T extends Registro> 
+{
+    final int TAM_CABECALHO = 4;
+
     RandomAccessFile arquivo;
-    final int TAMANHO_CABECALHO = 6;
+    String nomeArquivo;
+    Constructor<T> construtor;
 
-    public Arquivo(String ne) throws Exception {
-        this.nomeEntidade = ne;
-        File f = new File(".//TP1//dados");
-        if(!f.exists())
-            f.mkdir();
-        f = new File(".//TP1//dados//"+nomeEntidade);
-        if(!f.exists())
-            f.mkdir();
-        arquivo = new RandomAccessFile(".//TP1//dados//"+nomeEntidade+"//"+nomeEntidade +".db", "rw");
-        if(arquivo.length()<TAMANHO_CABECALHO) {
-            arquivo.writeByte(1);  // versão do Arquivo
-            arquivo.writeInt(0);   // último ID
-        }
-    }
-    
-    public int create ( Registro obj ) throws Exception {
+    HashExtensivel<ParIDEndereco> indiceDireto;
+
+    public Arquivo ( String na, Constructor<T> c ) throws Exception 
+    {
+        File d = new File(".\\Codigo\\src\\main\\data");
+        if ( !d.exists( ) ) {
+            d.mkdir();
+        } // end if
+
+        this.nomeArquivo = ".\\Codigo\\src\\main\\data\\" + na;
+        this.construtor = c;
+        arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
+        if (arquivo.length() < TAM_CABECALHO) {
+            // inicializa o arquivo, criando seu cabecalho
+            arquivo.writeInt(0);
+        } // end if
+
+        indiceDireto = new HashExtensivel<>(ParIDEndereco.class.getConstructor(), 4, this.nomeArquivo + ".d.idx",
+                this.nomeArquivo + ".c.idx");
+    } // end Arquivo ( )
+
+    /**
+     *  Cria um novo registro no arquivo
+     *  @param obj objeto a ser inserido 
+     *  @return id do registro criado
+     *  @throws Exception 
+     */
+    public int create ( T obj ) throws Exception {
         arquivo.seek(0);
         int proximoID = arquivo.readInt() + 1;
         arquivo.seek( 0 );
@@ -51,8 +70,8 @@ public class Arquivo {
      *  @return objeto lido
      *  @throws Exception
      */
-    public Registro read ( int id ) throws Exception {
-       Registro obj;
+    public T read ( int id ) throws Exception {
+        T obj;
         short tam;
         byte[] b;
         byte lapide;
@@ -60,7 +79,7 @@ public class Arquivo {
         ParIDEndereco pid = indiceDireto.read(id);
         if ( pid != null ) {
             arquivo.seek(pid.getEndereco());
-            arquivo.seek(TAMANHO_CABECALHO);
+            arquivo.seek(TAM_CABECALHO);
             while ( arquivo.getFilePointer() < arquivo.length() ) {
                 obj = construtor.newInstance();
                 lapide = arquivo.readByte();
@@ -79,14 +98,20 @@ public class Arquivo {
         return null;
     } // end read ( )
 
+    /**
+     *  Atualiza um registro no arquivo
+     *  @param id id do registro a ser atualizado
+     *  @return true se o registro foi atualizado, false caso contrário
+     *  @throws Exception 
+     */
     public boolean delete ( int id ) throws Exception {
         boolean result = false;
-        Registro obj;
+        T obj;
         short tam;
         byte[] b;
         byte lapide;
         Long endereco;
-        arquivo.seek(TAMANHO_CABECALHO);
+        arquivo.seek(TAM_CABECALHO);
         while ( arquivo.getFilePointer() < arquivo.length() ) {
             obj = construtor.newInstance();
             endereco = arquivo.getFilePointer();
@@ -113,9 +138,9 @@ public class Arquivo {
      *  @return true se o registro foi atualizado, false caso contrário
      *  @throws Exception
      */
-    public boolean update (Registro novoObj ) throws Exception {
+    public boolean update ( T novoObj ) throws Exception {
         boolean result = false;
-       Registro obj;
+        T obj;
         short tam;
         byte[] b;
         byte lapide;
@@ -155,7 +180,7 @@ public class Arquivo {
         return result;
     } // end update ( )
 
- /**
+    /**
      *  Fecha o arquivo
      *  @throws IOException
      */

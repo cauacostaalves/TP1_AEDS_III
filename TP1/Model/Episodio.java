@@ -1,9 +1,7 @@
 package TP1.Model;
 
 import java.io.ByteArrayOutputStream;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
