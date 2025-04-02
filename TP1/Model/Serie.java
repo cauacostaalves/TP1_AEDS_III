@@ -1,4 +1,4 @@
-package TP1_AEDS_III.TP1.Model;
+package TP1.Model;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import TP1_AEDS_III.TP1.Interfaces.Registro;
+import TP1.Interfaces.Registro;
 
 public class Serie implements Registro {
     protected int idSerie;

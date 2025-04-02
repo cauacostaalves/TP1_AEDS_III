@@ -12,7 +12,7 @@ disciplina:
 Implementado pelo Prof. Marcos Kutova
 v1.1 - 2021
 */
-package TP1_AEDS_III.TP1.Service;
+package TP1.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +23,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.lang.reflect.Constructor;
 
-import TP1_AEDS_III.TP1.Interfaces.RegistroHashExtensivel;
+import TP1.Interfaces.RegistroHashExtensivel;
 
 /**
  *  HashExtensivel: Classe que implementa a estrutura de dados Hash Extensível.

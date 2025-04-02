@@ -8,7 +8,7 @@ conter.
 Implementado pelo Prof. Marcos Kutova
 v1.1 - 2021
 */
-package TP1_AEDS_III.TP1.Interfaces;
+package TP1.Interfaces;
 
 import java.io.IOException;
 

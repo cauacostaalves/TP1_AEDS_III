@@ -1,9 +1,9 @@
-package TP1_AEDS_III.TP1.Service;
+package TP1.Service;
 
 import java.io.*;
-import TP1_AEDS_III.TP1.Interfaces.Registro;
-import TP1_AEDS_III.TP1.Service.ParIDEndereco;
-import TP1_AEDS_III.TP1.Service.HashExtensivel;
+import TP1.Interfaces.Registro;
+import TP1.Service.ParIDEndereco;
+import TP1.Service.HashExtensivel;
 
 public class Arquivo {
 
