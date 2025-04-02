@@ -15,7 +15,6 @@ public class Serie implements Registro {
     protected String Sinopse;
     protected String Streaming;
 
-
         //construtor para passar os valores dos atributos
         public Serie(int i, String n, long a , int s, String si, String st){
             idSerie = i;
@@ -25,6 +24,16 @@ public class Serie implements Registro {
             Sinopse = si;
             Streaming = st;
         }
+
+        public Serie( String n, long a , int s, String si, String st){
+            this.idSerie = 0;
+            Nome = n;
+            AnoLancamento = a;
+            SinopseSize = s;
+            Sinopse = si;
+            Streaming = st;
+        }
+
         public Serie() {
         idSerie = -1;
         Nome = "";

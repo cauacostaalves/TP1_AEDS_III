@@ -18,7 +18,7 @@ public class Teste {
         Episodio t1 = new Episodio(1, "Piloto", 1, LocalDate.of(2004, 9, 15), 45L);
         Episodio t2 = new Episodio(2, "A Jornada Continua", 1, LocalDate.of(2004, 9, 22), 50L);
         Episodio t3 = new Episodio(3, "O Grande Desafio", 1, LocalDate.of(2004, 9, 29), 42L);
-        int id1 = 0, id2 = 0, id3 = 0;
+        int id1 = 1, id2 = 0, id3 = 0;
 
         try {
             // Abre (cria) o arquivo de livros, apagando o anterior (apenas para teste)

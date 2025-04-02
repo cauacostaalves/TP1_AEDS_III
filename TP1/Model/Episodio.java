@@ -14,13 +14,24 @@ public class Episodio implements Registro{
     protected int temporada;
     protected LocalDate DataLancamento;
     protected long Duracao;
+    protected int idSerie;
 
-    public Episodio(int i, String n, int t, LocalDate d, long du){
+    public Episodio(int i, String n, int t, LocalDate d, long du, int idSerie){
         ID = i;
         Nome = n;
         temporada = t;
         DataLancamento = d;
         Duracao = du;
+        this.idSerie = idSerie;
+    }
+
+    public Episodio( String n, int t, LocalDate d, long du, int idSerie){
+        this.ID = 0;
+        Nome = n;
+        temporada = t;
+        DataLancamento = d;
+        Duracao = du;
+        this.idSerie = idSerie;
     }
 
     public Episodio( ){
@@ -29,6 +40,7 @@ public class Episodio implements Registro{
         temporada = 0;
         LocalDate.now();
         Duracao = 0;
+        idSerie = 0;
     }
 
     public void setId(int id) {
@@ -71,23 +83,35 @@ public class Episodio implements Registro{
         this.Duracao = Duracao;
     }
 
+    public void setIdSerie(int id) {
+        this.idSerie = id;
+    }
+
+    public int getIdSerie() {
+        return idSerie;
+    }
+
     public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(b);
+        dos.writeInt(ID);
         dos.writeUTF(Nome);
         dos.writeInt(temporada);
-        dos.writeLong(Duracao);
         dos.writeInt((int) this.DataLancamento.toEpochDay());
+        dos.writeLong(Duracao);
+        dos.writeInt(idSerie);
         return b.toByteArray();
     }
 
     public void fromByteArray(byte[] b) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(b);
         DataInputStream dis = new DataInputStream(bais);
+        this.ID = dis.readInt();
         Nome = dis.readUTF();
         temporada = dis.readInt();
-        Duracao = dis.readLong();
         this.DataLancamento = LocalDate.ofEpochDay(dis.readInt());
+        Duracao = dis.readLong();
+        idSerie = dis.readInt();
     }
 
 }

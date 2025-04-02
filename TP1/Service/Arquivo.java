@@ -75,26 +75,25 @@ public class Arquivo<T extends Registro>
         short tam;
         byte[] b;
         byte lapide;
-        System.out.println("ID: " + id);
         ParIDEndereco pid = indiceDireto.read(id);
         if ( pid != null ) {
             arquivo.seek(pid.getEndereco());
-            arquivo.seek(TAM_CABECALHO);
-            while ( arquivo.getFilePointer() < arquivo.length() ) {
+            // arquivo.seek(TAM_CABECALHO);
+           // while ( arquivo.getFilePointer() < arquivo.length() ) {
                 obj = construtor.newInstance();
                 lapide = arquivo.readByte();
-                tam = arquivo.readShort();
-                b = new byte[tam];
-                arquivo.read(b);
 
                 if ( lapide == ' ' ) {
+                    tam = arquivo.readShort();
+                    b = new byte[tam];
+                    arquivo.read(b);
                     obj.fromByteArray(b);
                     if ( obj.getId() == id) {
                         return obj;
                     } // end if
                 } // end if
             } // end while
-        } // end if
+         // end if
         return null;
     } // end read ( )
 
@@ -187,5 +186,11 @@ public class Arquivo<T extends Registro>
     public void close ( ) throws IOException {
         arquivo.close( );
     } // end close ( )
+
+    public int ultimoId() throws IOException{
+        arquivo.seek(0);
+        int id = arquivo.readInt();
+        return id;
+    }
 
 } // end class Arquivo
