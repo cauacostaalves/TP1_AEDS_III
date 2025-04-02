@@ -22,12 +22,12 @@ public class Arquivo<T extends Registro>
 
     public Arquivo ( String na, Constructor<T> c ) throws Exception 
     {
-        File d = new File(".\\Codigo\\src\\main\\data");
+        File d = new File(".\\TP1");
         if ( !d.exists( ) ) {
             d.mkdir();
         } // end if
 
-        this.nomeArquivo = ".\\Codigo\\src\\main\\data\\" + na;
+        this.nomeArquivo = ".\\TP1" + na;
         this.construtor = c;
         arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
         if (arquivo.length() < TAM_CABECALHO) {
