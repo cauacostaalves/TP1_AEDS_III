@@ -66,12 +66,16 @@ import java.time.format.DateTimeFormatter;
                     System.out.println("Digite o id da série que deseja encontrar: ");
                     int idS = sc.nextInt();
                     Serie S = arqSerie.read(idS);
+                    if(S == null){
+                        System.out.println("Série não encontrada!");
+                    }else{
                     System.out.println("Série encontrada: ");
                     System.out.println(S.getNome());
 
                     System.out.println("PUCFlix \n 1.0----------->  \n Início > Séries \n 1) Incluir \n 2) Buscar \n 3) Alterar \n 4) Excluir \n 0) Retornar ao menu anterior");
                     op = sc.nextInt();
                 }
+            }
                 if(op == 3){ // update
 
                     System.out.println("Crie sua série: ");
@@ -176,12 +180,16 @@ import java.time.format.DateTimeFormatter;
                     System.out.println("Digite o id do Episódio que deseja encontrar: ");
                     int idE = sc.nextInt();
                     Episodio E = arqEpisodios.read(idE);
-                    System.out.println("Episódio encontrado: ");
+                    if(E == null){
+                        System.out.println("Episódio não encontrado!");
+                    }else{
+                        System.out.println("Episódio encontrado: ");
                     System.out.println(E.getNome());
 
                     System.out.println("PUCFlix \n 1.0----------->  \n Início > Episódios \n 1) Incluir \n 2) Buscar \n 3) Alterar \n 4) Excluir \n 0) Retornar ao menu anterior");
                     sc.nextInt();
                 }
+            }
                 if(op == 3){ // update
                     System.out.println("Atualize seu episódio: ");
                    
