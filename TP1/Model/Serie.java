@@ -14,24 +14,27 @@ public class Serie implements Registro {
     protected int SinopseSize;
     protected String Sinopse;
     protected String Streaming;
+    protected int QtdTemporada;
 
         //construtor para passar os valores dos atributos
-        public Serie(int i, String n, long a , int s, String si, String st){
+        public Serie(int i, String n, long a , int s, String si, String st, int QtdTe){
             idSerie = i;
             Nome = n;
             AnoLancamento = a;
             SinopseSize = s;
             Sinopse = si;
             Streaming = st;
+            QtdTemporada = QtdTe;
         }
 
-        public Serie( String n, long a , int s, String si, String st){
+        public Serie( String n, long a , int s, String si, String st, int QtdTe){
             this.idSerie = 0;
             Nome = n;
             AnoLancamento = a;
             SinopseSize = s;
             Sinopse = si;
             Streaming = st;
+            QtdTemporada = QtdTe;
         }
 
         public Serie() {
@@ -41,6 +44,7 @@ public class Serie implements Registro {
         SinopseSize = 0;
         Sinopse = "";
         Streaming = "";
+        QtdTemporada = 0;
         }
 
         public void setId(int id) {
@@ -89,6 +93,14 @@ public class Serie implements Registro {
     
         public void setStreaming(String Streaming) {
             this.Streaming = Streaming;
+        }
+
+        public void setQtdTemporada(int QtdTe){
+            this.QtdTemporada = QtdTe;
+        }
+
+        public int getQtdTemporada(){
+            return QtdTemporada;
         }
 
         //METODO QUE DESCREVE A SERIE POR MEIO DE UM VETOR DE BYTES

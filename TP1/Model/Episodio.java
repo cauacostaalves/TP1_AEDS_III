@@ -15,23 +15,26 @@ public class Episodio implements Registro{
     protected LocalDate DataLancamento;
     protected long Duracao;
     protected int idSerie;
+    protected int NumeroEpisodio;
 
-    public Episodio(int i, String n, int t, LocalDate d, long du, int idSerie){
+    public Episodio(int i, String n, int t, LocalDate d, long du, int idSerie, int NumeroEpisodio){
         ID = i;
         Nome = n;
         temporada = t;
         DataLancamento = d;
         Duracao = du;
         this.idSerie = idSerie;
+        this.NumeroEpisodio = NumeroEpisodio;
     }
 
-    public Episodio( String n, int t, LocalDate d, long du, int idSerie){
+    public Episodio( String n, int t, LocalDate d, long du, int idSerie, int NumeroEpisodio){
         this.ID = 0;
         Nome = n;
         temporada = t;
         DataLancamento = d;
         Duracao = du;
         this.idSerie = idSerie;
+        this.NumeroEpisodio = NumeroEpisodio;
     }
 
     public Episodio( ){
@@ -91,6 +94,13 @@ public class Episodio implements Registro{
         return idSerie;
     }
 
+    public void setNumeroEpisodio(int N){
+        this.NumeroEpisodio = N;
+    }
+
+    public int getNumero(){
+        return NumeroEpisodio;
+    }
     public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(b);

@@ -20,23 +20,30 @@ public class Arquivo<T extends Registro>
 
     HashExtensivel<ParIDEndereco> indiceDireto;
 
-    public Arquivo ( String na, Constructor<T> c ) throws Exception 
-    {
-        File d = new File(".\\TP1\\Data");
-        if ( !d.exists( ) ) {
+    public Arquivo(String na, Constructor<T> c) throws Exception {
+        File d = new File(".\\TP1\\dados");
+        if(!d.exists())
             d.mkdir();
-        } // end if
 
-        this.nomeArquivo = ".\\TP1\\Data\\" + na;
+        d = new File(".\\TP1\\dados\\"+na);
+        if(!d.exists())
+            d.mkdir();
+
+        this.nomeArquivo = ".\\TP1\\dados\\"+na+"\\"+na+".db";
         this.construtor = c;
         arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
-        if (arquivo.length() < TAM_CABECALHO) {
+        if(arquivo.length()<TAM_CABECALHO) {
             // inicializa o arquivo, criando seu cabecalho
-            arquivo.writeInt(0);
-        } // end if
+            arquivo.writeInt(0);   // último ID
+            arquivo.writeLong(-1);   // lista de registros marcados para exclusão 
+        }
 
-        indiceDireto = new HashExtensivel<>(ParIDEndereco.class.getConstructor(), 4, this.nomeArquivo + ".d.idx",
-                this.nomeArquivo + ".c.idx");
+        indiceDireto = new HashExtensivel<>(
+            ParIDEndereco.class.getConstructor(), 
+            4, 
+            ".\\TP1\\dados\\"+na+"\\"+na+".d.db", // diretório 
+            ".\\TP1\\dados\\"+na+"\\"+na+".c.db"  // cestos
+        );
     } // end Arquivo ( )
 
     /**
