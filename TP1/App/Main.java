@@ -123,6 +123,18 @@ import java.time.format.DateTimeFormatter;
                 if(op == 4){ // delete
                     System.out.println("Digite o id da série que deseja remover: ");
                     int idS = sc.nextInt();
+                    int ultimoId = arqEpisodios.ultimoId();
+                    for(int i=0; i<ultimoId;i++){
+                        Episodio E = arqEpisodios.read(i);
+                        if (E != null) {
+                            if(E.getIdSerie() == idS){
+                                System.out.println("Essa série possui episódios cadastrados, não é possível excluí-la.");
+                                i = ultimoId; // Para não ficar rodando o loop
+                            }else{
+                                System.out.println("Essa série não possui episódios cadastrados, você pode excluí-la.");
+                            } 
+                        }
+                    }
                     boolean result = arqSerie.delete(idS);
                     if(result){
                         System.out.println("Série deletada com sucesso!");
