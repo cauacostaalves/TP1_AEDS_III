@@ -17,7 +17,6 @@ public class Arquivo<T extends Registro>
     RandomAccessFile arquivo;
     String nomeArquivo;
     Constructor<T> construtor;
-
     HashExtensivel<ParIDEndereco> indiceDireto;
 
     public Arquivo(String na, Constructor<T> c) throws Exception {

@@ -5,33 +5,32 @@ import java.io.DataOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+
 import TP1.Interfaces.Registro;
 
 public class Serie implements Registro {
     protected int idSerie;
     protected String Nome;
-    protected long AnoLancamento;
-    protected int SinopseSize;
+    protected LocalDate AnoLancamento;
     protected String Sinopse;
     protected String Streaming;
     protected int QtdTemporada;
 
         //construtor para passar os valores dos atributos
-        public Serie(int i, String n, long a , int s, String si, String st, int QtdTe){
+        public Serie(int i, String n, LocalDate a ,  String si, String st, int QtdTe){
             idSerie = i;
             Nome = n;
             AnoLancamento = a;
-            SinopseSize = s;
             Sinopse = si;
             Streaming = st;
             QtdTemporada = QtdTe;
         }
 
-        public Serie( String n, long a , int s, String si, String st, int QtdTe){
+        public Serie( String n, LocalDate a ,  String si, String st, int QtdTe){
             this.idSerie = 0;
             Nome = n;
             AnoLancamento = a;
-            SinopseSize = s;
             Sinopse = si;
             Streaming = st;
             QtdTemporada = QtdTe;
@@ -40,8 +39,7 @@ public class Serie implements Registro {
         public Serie() {
         idSerie = -1;
         Nome = "";
-        AnoLancamento = 0;
-        SinopseSize = 0;
+        AnoLancamento = null;
         Sinopse = "";
         Streaming = "";
         QtdTemporada = 0;
@@ -63,20 +61,12 @@ public class Serie implements Registro {
             this.Nome = Nome;
         }
     
-        public long getAnoLancamento() {
+        public LocalDate getAnoLancamento() {
             return AnoLancamento;
         }
     
-        public void setAnoLancamento(long AnoLancamento) {
+        public void setAnoLancamento(LocalDate AnoLancamento) {
             this.AnoLancamento = AnoLancamento;
-        }
-    
-        public int getSinopseSize() {
-            return SinopseSize;
-        }
-    
-        public void setSinopseSize(int SinopseSize) {
-            this.SinopseSize = SinopseSize;
         }
     
         public String getSinopse() {
@@ -109,10 +99,11 @@ public class Serie implements Registro {
         DataOutputStream dos = new DataOutputStream(b);
         dos.writeInt(idSerie);
         dos.writeUTF(Nome);
-        dos.writeLong(AnoLancamento);
+        dos.writeInt((int) this.AnoLancamento.toEpochDay());
         dos.writeUTF(Sinopse);
         dos.writeUTF(Streaming);
-       
+        dos.writeInt(QtdTemporada);
+
         return b.toByteArray();
     }
 
@@ -123,9 +114,10 @@ public class Serie implements Registro {
         DataInputStream dis = new DataInputStream(bais);
         idSerie = dis.readInt();
         Nome = dis.readUTF();
-        AnoLancamento = dis.readLong();
+        AnoLancamento = LocalDate.ofEpochDay(dis.readInt());
         Sinopse = dis.readUTF();
         Streaming = dis.readUTF();
+        QtdTemporada = dis.readInt();
     }
 }
 
