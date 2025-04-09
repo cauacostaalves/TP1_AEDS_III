@@ -75,6 +75,7 @@ public class ViewEpisodio {
         do {
             System.out.println("Escolha o número do episódio:");
             NumeroEpisodio = sc.nextInt();
+            sc.nextLine();
             if (NumeroEpisodio <= 0) {
                 System.err.println("o número do episódio deve ser inteiro e positivo.");
             }
@@ -89,14 +90,35 @@ public class ViewEpisodio {
         System.out.println("Duração: " + duracao + " minutos");
         System.out.println("ID da Série: " + idSerie);
 
-        System.out.print("\nConfirma a inclusão do episódio? (S/N) ");
+        /*System.out.print("\nConfirma a inclusão do episódio? (S/N) ");
         char resp = sc.nextLine().charAt(0);
+
         if (resp == 'S' || resp == 's') {
             Episodio E = new Episodio(nome, temporada, DataL, duracao, idSerie, NumeroEpisodio);
             return E;
+        }*/
+
+        System.out.print("\nConfirma a inclusão da série? (S/N) ");
+        String resp = sc.nextLine().toUpperCase(); // Usar nextLine() para capturar a linha inteira
+        System.out.println(resp);
+        if (resp.isEmpty() || !(resp.equals("S") || resp.equals("N"))) {
+            System.out.println("Resposta inválida. Por favor, digite 'S' para Sim ou 'N' para Não.");
+            return null;
         }
 
-        return null;
+        if (resp.equals("S")) {
+            try {
+                Episodio E = new Episodio(nome, temporada, DataL, duracao, idSerie, NumeroEpisodio);
+                return E;
+            } catch (Exception e) {
+                System.out.println("Erro do sistema. Não foi possível incluir a série!");
+                return null;
+            }
+        } else {
+            System.out.println("Criação de série cancelada.");
+            return null;
+        }
+       // return null;
     }
 
     public Episodio alterarEpisodio(int idSerie, Episodio E) {
@@ -214,7 +236,7 @@ public class ViewEpisodio {
         System.out.printf("Nome do episódio....: %s%n", E.getNome());
         System.out.printf("Temporada ..........: %d%n", E.getTemporada());
         System.out.printf("Número do episodio......: %d%n", E.getNumero());
-        System.out.printf("Duração em minutos..: %.2f%n", E.getDuracao());
+        System.out.printf("Duração em minutos..: %d%n", E.getDuracao());
         System.out.printf("Data de lançamento..: %s%n",
                 E.getDataLancamento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         System.out.println("------------------------------------");
@@ -229,7 +251,7 @@ public class ViewEpisodio {
 
         System.out.println("\n=== Lista de Episódios ===\n");
         System.out.println("Total de episódios: " + episodios.size());
-        
+
         for (Episodio ep : episodios) {
             mostraEpisodio(ep);
         }
@@ -239,16 +261,16 @@ public class ViewEpisodio {
         if (episodios.isEmpty()) {
             return -1;
         }
-        
+
         if (episodios.size() == 1) {
             System.out.println("\nEpisódio selecionado automaticamente: " + episodios.get(0).getNome());
             return episodios.get(0).getId();
         }
-        
+
         System.out.print("\nDigite o ID do episódio que deseja selecionar (0 para cancelar): ");
         int id = sc.nextInt();
         sc.nextLine(); // Limpar buffer
-        
+
         // Verificar se o ID está na lista
         if (id != 0) {
             boolean idExiste = false;
@@ -258,13 +280,13 @@ public class ViewEpisodio {
                     break;
                 }
             }
-            
+
             if (!idExiste) {
                 System.out.println("ID inválido! Por favor, selecione um ID da lista apresentada.");
                 return selecionaEpisodioDoResultado(episodios); // Recursão para nova tentativa
             }
         }
-        
+
         return id;
     }
 
