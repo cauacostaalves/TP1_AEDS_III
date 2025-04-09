@@ -219,7 +219,7 @@ public class ViewEpisodio {
         System.out.println("Total: " + episodios.size() + " episódio(s)");
 
         for (Episodio ep : episodios) {
-            System.out.println("\nID: " + ep.getId() + " | Nome" + ep.getNome());
+            System.out.println("\nID: " + ep.getId() + " | Nome: " + ep.getNome());
             System.out.println("Temporada: " + ep.getTemporada() + "| Número episódio: " + ep.getNumero()
                     + "| ID da Série: " + ep.getIdSerie());
             System.out.println("Lançamento: " + ep.getDataLancamento() + " | Duração: " + ep.getDuracao() + " min");

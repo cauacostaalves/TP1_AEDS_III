@@ -58,7 +58,7 @@ public class MenuEpisodio {
                     gerenciarEpisodiosPorNome(); //check
                     break;
                 case 3:
-                    buscarEpisodioPorId();
+                    buscarEpisodioPorNome();
                     break;
                 case 0:
                     break;
