@@ -11,7 +11,7 @@
  * Implementado pelo Prof. Marcos Kutova
  * v2.0 - 2021
  */
-package TP1.Model;
+package TP1.Service;
 
 import java.io.*;
 import java.util.ArrayList;

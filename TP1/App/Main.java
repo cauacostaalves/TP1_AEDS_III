@@ -12,11 +12,19 @@ public class Main {
     static Arquivo<Serie> arqSerie;
 
     public static void main(String[] args) throws Exception {
-        Scanner console;
+        Scanner sc;
 
         try {
-            console = new Scanner(System.in);
+            sc = new Scanner(System.in);
             int opcao;
+            
+            //incializar os arquivos
+            arqEpisodios = new Arquivo<>("Episodios", Episodio.class.getConstructor());
+            arqSerie = new Arquivo<>("Serie", Serie.class.getConstructor());
+
+            // Inicializa os controladores
+            MenuSerie menuSerie = new MenuSerie(sc, arqSerie, arqEpisodios);
+            MenuEpisodio menuEp = new MenuEpisodio(sc, arqEpisodios, arqSerie);
             do {
 
                 System.out.println("\n\nAEDsIII");
@@ -28,17 +36,17 @@ public class Main {
                 System.out.println("0 - Sair");
                 System.out.print("\nOpção: ");
                 try {
-                    opcao = Integer.valueOf(console.nextLine());
+                    opcao = Integer.valueOf(sc.nextLine());
                 } catch (NumberFormatException e) {
                     opcao = -1;
                 }
 
                 switch (opcao) {
                     case 1:
-                        (new MenuSerie()).menu();
+                        menuSerie.menuSerie();
                         break;
                     case 2:
-                        (new MenuEpisodio()).menu();
+                        menuEp.menuEpisodio();
                         break;
                     case 3:
                         System.out.println("Ainda não implementado.");

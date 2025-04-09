@@ -14,24 +14,27 @@ public class Serie implements Registro {
     protected String Nome;
     protected LocalDate AnoLancamento;
     protected String Sinopse;
+    protected int SinopseSize;
     protected String Streaming;
     protected int QtdTemporada;
 
         //construtor para passar os valores dos atributos
-        public Serie(int i, String n, LocalDate a ,  String si, String st, int QtdTe){
+        public Serie(int i, String n, LocalDate a ,  String si,int SS, String st, int QtdTe){
             idSerie = i;
             Nome = n;
             AnoLancamento = a;
             Sinopse = si;
+            SinopseSize = SS;
             Streaming = st;
             QtdTemporada = QtdTe;
         }
 
-        public Serie( String n, LocalDate a ,  String si, String st, int QtdTe){
+        public Serie( String n, LocalDate a ,  String si,int SS, String st, int QtdTe){
             this.idSerie = 0;
             Nome = n;
             AnoLancamento = a;
             Sinopse = si;
+            SinopseSize = SS;
             Streaming = st;
             QtdTemporada = QtdTe;
         }
@@ -41,6 +44,7 @@ public class Serie implements Registro {
         Nome = "";
         AnoLancamento = null;
         Sinopse = "";
+        SinopseSize = 0;
         Streaming = "";
         QtdTemporada = 0;
         }
@@ -93,6 +97,16 @@ public class Serie implements Registro {
             return QtdTemporada;
         }
 
+        public void SinopzeSize(int SS){
+            this.SinopseSize = SS;
+        }
+
+        public int SinopseSize(){
+            return SinopseSize;
+        }
+        
+
+
         //METODO QUE DESCREVE A SERIE POR MEIO DE UM VETOR DE BYTES
     public byte[] toByteArray() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -100,6 +114,7 @@ public class Serie implements Registro {
         dos.writeInt(idSerie);
         dos.writeUTF(Nome);
         dos.writeInt((int) this.AnoLancamento.toEpochDay());
+        dos.writeInt(SinopseSize);
         dos.writeUTF(Sinopse);
         dos.writeUTF(Streaming);
         dos.writeInt(QtdTemporada);
@@ -115,6 +130,7 @@ public class Serie implements Registro {
         idSerie = dis.readInt();
         Nome = dis.readUTF();
         AnoLancamento = LocalDate.ofEpochDay(dis.readInt());
+        SinopseSize = dis.readInt();
         Sinopse = dis.readUTF();
         Streaming = dis.readUTF();
         QtdTemporada = dis.readInt();
