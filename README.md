@@ -2,31 +2,34 @@
 
 ## 📽️ O que o trabalho faz?
 
-O PUCFlix é um sistema de gerenciamento de catálogo de séries de streaming, permitindo o cadastro e organização de séries e seus respectivos episódios. O sistema foi desenvolvido seguindo o padrão de arquitetura MVC (Model-View-Controller) e utiliza estruturas de dados para indexação e busca eficiente das informações.
+O PUCFlix é um sistema de gerenciamento de séries de streaming, desenvolvido como parte da primeira tarefa prática da disciplina, cujo foco foi a implementação de um relacionamento 1:N entre duas entidades: Série e Episódio.
 
-**Principais funcionalidades:**
+A aplicação permite ao usuário cadastrar, alterar, buscar e excluir informações sobre séries e seus respectivos episódios, por meio de uma interface simples e interativa. O sistema segue o padrão de arquitetura MVC (Model-View-Controller), separando claramente a lógica de controle, a interface com o usuário e o acesso aos dados.
 
-### 🎬 Para Séries:
-- Cadastrar novas séries com título, ano, sinopse e plataforma de streaming
-- Buscar séries pelo nome
-- Atualizar informações de séries existentes
-- Excluir séries (com verificação de integridade referencial)
-- Visualizar resumo de temporadas com contagem de episódios
+**Funcionalidades, Relacionamentos e Estrutura:**
 
-### 📺 Para Episódios:
-- Cadastrar novos episódios vinculados a séries específicas
-- Buscar episódios por nome em todas as séries ou em uma série específica
-- Atualizar informações de episódios existentes
-- Excluir episódios
-- Listar episódios organizados por temporada
 
-### 📊 Relacionamentos e Estrutura:
-- Implementação de relacionamento 1:N entre séries e episódios
-- Uso de Árvore B+ para gerenciar o relacionamento entre séries e episódios
-- Uso de Tabela Hash Extensível para acesso direto por ID
+Cada série pode conter múltiplos episódios, o que caracteriza o relacionamento de um para muitos (1:N). Para isso, a entidade Episódio possui um ID de série como chave estrangeira, assegurando o vínculo entre as duas entidades. Também foi implementada uma Árvore B+ para registrar esse relacionamento, garantindo uma busca eficiente e estruturada dos episódios a partir das suas respectivas séries.
+
+Além disso, o sistema conta com:
+
+- Um CRUD genérico que opera sobre arquivos binários, com estrutura de lápide, tamanho do registro e vetor de bytes.
+
+- Utilização da Tabela Hash Extensível para índice direto (por ID).
+
+- Utilização da Árvore B+ para índice indireto (por nome e também para mapear os episódios por série).
+
+- Restrições de integridade, como impedir a exclusão de uma série que ainda possui episódios vinculados.
+
+- Uma visualização segmentada por temporada, permitindo que os episódios sejam organizados de forma intuitiva.
+
+- Um menu interativo que facilita a navegação entre séries e episódios, mantendo uma boa experiência de uso.
+
 - Persistência dos dados em arquivos binários
 
-O sistema garante a integridade referencial, impedindo a exclusão de séries que possuem episódios cadastrados, além de fornecer visualizações organizadas dos dados.
+
+O desenvolvimento partiu da base fornecida em sala (CRUD genérico) e exigiu a adaptação e integração de estruturas mais complexas para manipulação dos dados de forma eficiente. O projeto foi entregue nesse repositório do GitHub, com toda a estrutura separada em pacotes e classes bem definidas, respeitando os princípios da disciplina e facilitando a manutenção e expansão futura.
+
 
 ## 👨‍💻 Equipe
 
@@ -44,36 +47,30 @@ O sistema garante a integridade referencial, impedindo a exclusão de séries qu
 
 **Episodio.java**
 - Representa a entidade Episódio com atributos como título, temporada, data de lançamento e duração
-- Contém o atributo `serieId` como chave estrangeira para vinculação à série correspondente
+- Contém o atributo `idSerie` como chave estrangeira para vinculação à série correspondente
 - Implementa métodos de serialização e desserialização para persistência em arquivo
 
-### 🎮 Controller (Camada de Controle)
+### 🎮 Menu (Camada de Controle)
 
-**ControleSerie.java**
-- Gerencia a lógica de negócio para séries
-- Métodos principais: `menuSerie()`, `incluirSerie()`, `buscarSeriePorNome()`, `alterarSeriePorNome()`, `excluirSeriePorNome()`, `visualizarSerieComEpisodios()`
-- Valida a integridade referencial antes de excluir séries
 
-**ControleEpisodio.java**
+**MenuEpisodio.java**
 - Gerencia a lógica de negócio para episódios
-- Métodos principais: `menuEpisodio()`, `incluirEpisodio()`, `buscarEpisodioPorNome()`, `alterarEpisodioPorNome()`, `excluirEpisodioPorNome()`, `listarEpisodiosDaSerie()`
+- Métodos principais: `menuEpisodio()`, `gerenciarEpisodiosPorNome()`, `buscarEpisodioPorNome()`, `gerenciarEpisodiosDeSerie()`, `incluirEpisodio(int idSerie)`, `alterarEpisodioPorNome()`, `excluirEpisodioPorNome()´, `listarEpisodiosDaSerie()`
 - Garante que episódios sejam vinculados apenas a séries existentes
 
-**RelacionamentoSerieEpisodio.java**
-- Gerencia o relacionamento 1:N entre séries e episódios
-- Implementa a árvore B+ para indexação de relacionamentos
-- Métodos principais: `adicionarRelacionamento()`, `removerRelacionamento()`, `getEpisodiosDaSerie()`, `serieTemEpisodios()`, `organizarEpisodiosPorTemporada()`
-- Inclui mecanismos de recuperação caso a árvore B+ apresente problemas
+**MenuSerie.java**
+- Gerencia a lógica de negócio para séries
+- Métodos principais: `menuSerie()`, `buscarSerieID()`, `incluirSerie()`, `excluirSerieNome()`, `alterarSerieID()`
 
 ### 👁️ View (Camada de Visualização)
 
-**VisaoSerie.java**
+**ViewSerie.java**
 - Interface com o usuário para operações relacionadas a séries
-- Métodos principais: `leSerie()`, `mostraSerie()`, `mostraResultadoBuscaSeries()`, `mostraTodosEpisodiosPorTemporada()`
+- Métodos principais: `incluirSerie()`, `alterarSerie()`, `mostraSerie()`, `mostraResultadoBuscaSeries()`
 
-**VisaoEpisodio.java**
+**ViewEpisodio.java**
 - Interface com o usuário para operações relacionadas a episódios
-- Métodos principais: `leEpisodio()`, `mostraEpisodio()`, `mostraResultadoBuscaEpisodios()`, `mostraListaEpisodios()`
+- Métodos principais: `lerNomeEpisodio()`, `incluirEpisodio()`, `alterarEpisodio()`, `mostraResultadoBuscaEpisodios()`, `mostraEpisodio`
 
 ### 🛠️ Service (Camada de Serviço/Infraestrutura)
 
@@ -97,46 +94,23 @@ O sistema garante a integridade referencial, impedindo a exclusão de séries qu
 - Representa o par (id, endereco) para uso na Tabela Hash Extensível
 - Implementa a interface `RegistroHashExtensivel`
 
-## 💻 Experiência de Desenvolvimento
-
-O desenvolvimento do PUCFlix foi um desafio interessante que nos permitiu aplicar conceitos de estruturas de dados em um contexto prático.
 
 ### ✅ Requisitos Implementados
-Conseguimos implementar todos os requisitos solicitados, incluindo:
-- CRUD completo para séries e episódios
-- Relacionamento 1:N entre séries e episódios usando Árvore B+
-- Busca por nome em ambas as entidades
-- Visualização dos episódios por temporada
-- Verificação de integridade referencial
 
-### 🚧 Desafios Enfrentados
+- CRUD completo para séries e episódios.
 
-O maior desafio foi a implementação e o uso correto da Árvore B+ para gerenciar o relacionamento entre séries e episódios. Enfrentamos alguns problemas de inconsistência na árvore, principalmente na aquisição dos registros que foram, ao menos, inseridos com sucesso. Para resolver esse problema, tentamos implementar mecanismos de recuperação e verificação que garantem a consistência dos dados mesmo em caso de falha da árvore. Pórem ele, é instável, tendo comportamentos variados, as vezes retona corretamente ou não, mesmo tentando debugar a classe ArvoreBMais não conseguimos chegar a uma conclusão em definitivo.
+-Relacionamento 1:N entre séries e episódios utilizando uma Árvore B+.
 
-A implementação do método `compareTo()` na classe `ParIDSerieEpisodio` também exigiu atenção especial, pois precisávamos garantir que a busca na árvore B+ funcionasse corretamente, especialmente para encontrar todos os episódios de uma série específica.
+-Funcionalidade de busca por nome em ambas as entidades.
 
-### 🏆 Resultados Alcançados
+-Visualização dos episódios organizados por temporada.
 
-Conseguimos desenvolver um sistema funcional que atende quase todos os requisitos especificados. O PUCFlix permite gerenciar séries e seus episódios de forma eficiente, com uma interface de linha de comando intuitiva e bem organizada.
+-Verificação de integridade referencial, assegurando a consistência dos dados.
 
-A estrutura MVC adotada facilitou a manutenção e evolução do código, permitindo que cada componente do sistema tenha responsabilidades bem definidas.
-
-## ✓ Checklist de Requisitos
-
-* As operações de inclusão, busca, alteração e exclusão de séries estão implementadas e funcionando corretamente? **Sim**
-* As operações de inclusão, busca, alteração e exclusão de episódios, por série, estão implementadas e funcionando corretamente? **Sim**
-* Essas operações usam a classe CRUD genérica para a construção do arquivo e as classes Tabela Hash Extensível e Árvore B+ como índices diretos e indiretos? **Parcialmente**
-* O atributo de ID de série, como chave estrangeira, foi criado na classe de episódios? **Sim**
-* Há uma árvore B+ que registre o relacionamento 1:N entre episódios e séries? **Sim**
-* Há uma visualização das séries que mostre os episódios por temporada? **Sim**
-* A remoção de séries checa se há algum episódio vinculado a ela? **Sim**
-* A inclusão da série em um episódio se limita às séries existentes? **Sim**
-* O trabalho está funcionando corretamente? **Parcialmente**
-* O trabalho está completo? **Sim**
-* O trabalho é original e não a cópia de um trabalho de outro grupo? **Sim**
 
 ## 📝 Conclusão
 
-O desenvolvimento do PUCFlix foi uma experiência enriquecedora que nos permitiu aplicar conceitos teóricos de estruturas de dados em um contexto prático. Apesar dos desafios encontrados, principalmente relacionados à implementação da Árvore B+.
+O processo de desenvolvimento do PUCFlix foi uma experiência valiosa, pois nos permitiu aplicar conceitos de estruturas de dados em um projeto prático. Apesar dos obstáculos enfrentados, especialmente com a Árvore B+, conseguimos avançar de forma significativa e aprender com os erros e acertos ao longo do caminho.
 
-A organização do código em camadas (MVC) facilitou o desenvolvimento colaborativo e a manutenção do sistema. Além disso, a implementação de mecanismos de recuperação garantiu a robustez do sistema, mesmo em casos de falha na estrutura de dados.
+A estrutura em camadas (MVC) trouxe muitos benefícios, permitindo uma organização clara do código, facilitando a colaboração e a evolução do sistema. Adicionalmente, as estratégias de recuperação implementadas ajudaram a manter o sistema robusto, mesmo diante das falhas na árvore de dados.
+
