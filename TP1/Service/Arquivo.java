@@ -57,10 +57,12 @@ public class Arquivo<T extends Registro>
         arquivo.seek( 0 );
         arquivo.writeInt(proximoID);
         obj.setId(proximoID);
-        arquivo.seek(arquivo.length());
 
+        arquivo.seek(arquivo.length());
         long endereco = arquivo.getFilePointer();
         byte[] b = obj.toByteArray();
+
+    
 
         arquivo.writeByte(' ');
         arquivo.writeShort(b.length);
@@ -122,6 +124,11 @@ public class Arquivo<T extends Registro>
             endereco = arquivo.getFilePointer();
             lapide = arquivo.readByte();
             tam = arquivo.readShort();
+            System.out.println("Valor de tam lido: " + tam);
+            if (tam < 0) {
+                System.err.println("Tamanho inválido: " + tam);
+                return false;
+            }
             b = new byte[tam];
             arquivo.read(b);
 
@@ -131,6 +138,7 @@ public class Arquivo<T extends Registro>
                     arquivo.seek(endereco);
                     arquivo.write('*');
                     result = true;
+                    break;
                 } // end if
             } // end if 
         } // end while

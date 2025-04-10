@@ -172,6 +172,7 @@ public class ViewSerie {
                     "Escolha o seu streaming: \n 1) Netflix \n 2) Amazon Prime Video \n 3) Max \n 4) Disney Plus \n 5) Globo Play \n 6) Star Plus");
             int opStreaming = 0;
             opStreaming = sc.nextInt();
+            sc.nextLine();
             if (opStreaming == 0) {
                 dadosCorretos = true;
             }
