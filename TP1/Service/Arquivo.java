@@ -1,11 +1,10 @@
 package TP1.Service;
 
+import TP1.Interfaces.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
-
-import TP1.Interfaces.*;
 
 /**
  * Arquivo: Classe generica que representa um arquivo de registros.
